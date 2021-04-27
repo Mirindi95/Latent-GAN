@@ -90,6 +90,6 @@ def get_bbox(image) -> tuple:
 
 if __name__ == "__main__":
     
-    input_dir = "./Images/clipped_05_19_RGB/row_A/"
-    output_dir = "./Images/clipped_05_19_RGB/cropped/row_A/"
+    input_dir = "./data/raw/"
+    output_dir = "./data/cropped/"
     crop_image(input_dir, output_dir)

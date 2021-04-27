@@ -115,9 +115,9 @@ def get_patch_path(save_path: str, index: int) -> str:
     return save_path.split('/')[-1].split('.')[0]+"_{}.tif".format(index)
 
 if __name__ == "__main__":
-    input_dir = "./Images/clipped_05_19_RGB/cropped/row_A/"
-    output_dir = "./Images/clipped_05_19_RGB/cropped/row_A/row_A_patched/"
-    input_file = "./Images/columnwiseNr_to_plotNr.txt"
+    input_dir = "./data/cropped/"
+    output_dir = "./data/patched/"
+    input_file = "./data/columnwiseNr_to_plotNr.txt"
     text_list = read_file(input_file)
     patch_image(input_dir=input_dir, output_dir=output_dir, text_list=text_list)
-    write_json(HASHMAP_PLOTID, './Images/clipped_05_19_RGB/hasmap_plotNr.json')
+    write_json(HASHMAP_PLOTID, './data/hasmap_plotNr.json')
