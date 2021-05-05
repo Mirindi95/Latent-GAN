@@ -18,7 +18,7 @@ def read_image(file_path: str) -> Image:
     --------
         Image
     """
-    image = Image.open(file_path).rotate(-44.4).convert("RGB")
+    image = Image.open(file_path).convert("RGB")
     return image
 
 def crop_image(input_dir: str, output_dir: str) -> None:
@@ -34,14 +34,15 @@ def crop_image(input_dir: str, output_dir: str) -> None:
     --------
         None        
     """
-    for _, file_path, save_path in find_images(input_dir, output_dir):
-        image = read_image(file_path)
+    for file, file_path in find_images(input_dir):
+        save_path = os.path.join(output_dir, file)
+        image = read_image(file_path).rotate(-44.4)
         bbox = get_bbox(image)
         croped = image.crop(bbox)
         croped.save(save_path)
     
     
-def find_images(input_dir: str, output_dir: str) -> tuple: 
+def find_images(input_dir: str) -> tuple: 
     """
     Generator function that successively yields the path of an
     image within a given directory.
@@ -49,18 +50,16 @@ def find_images(input_dir: str, output_dir: str) -> tuple:
     Arguments:
     ----------
         input_dir: input_directory
-        output_dir: output_directory
-    
+
     Returns:
     --------
         tuple: file, file_path, save_path    
     """
     for file in os.listdir(input_dir):
         file_path = os.path.join(input_dir, file)
-        save_path = os.path.join(output_dir, file)
         if os.path.isfile(file_path) and ".tif" in file:
-            print("processing image: {}".format(file))
-            yield file, file_path, save_path 
+            #print("processing image: {}".format(file))
+            yield file, file_path
             
             
 def get_bbox(image) -> tuple: 
@@ -90,6 +89,6 @@ def get_bbox(image) -> tuple:
 
 if __name__ == "__main__":
     
-    input_dir = "./data/raw/"
-    output_dir = "./data/cropped/"
+    input_dir = sys.argv[1] #input folder with raw and uncropped images
+    output_dir = sys.argv[2] #output folder for cropped images
     crop_image(input_dir, output_dir)

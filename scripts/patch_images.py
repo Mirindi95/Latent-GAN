@@ -3,11 +3,11 @@ import numpy as np
 import os
 import tifffile as tiff
 from utils import read_json, write_json, read_file
-
+import sys
 
 HASHMAP_PLOTID = {}
 
-def patch_image(input_dir: str, output_dir: str, text_list: list) -> None:
+def patch_image(input_dir: str, output_dir: str) -> None:
     """
     Partitions an image into patches and saves them respectively. 
     Patches have are extracted via a kernel of defined size. The kernel traverses
@@ -23,15 +23,13 @@ def patch_image(input_dir: str, output_dir: str, text_list: list) -> None:
     --------
         None
     """
-    for index, (file, file_path, save_path) in enumerate(find_images(input_dir, output_dir)):
-        file_index = get_file_index(file)
-        HASHMAP_PLOTID[text_list[file_index]] = {file : [] }
+    for file, file_path in find_images(input_dir):
         image = tiff.imread(file_path)
         image_array = np.array(image)
+        save_path = os.path.join(output_dir, file)
         for n_index, patch in enumerate(get_single_patch(image_array)):
             patch_name = get_patch_path(save_path, n_index)
             patch_path = os.path.join(output_dir, patch_name)
-            HASHMAP_PLOTID[text_list[file_index]][file].append(patch_name)
             tiff.imsave(patch_path, patch)
             
 def get_patch(img: np.array, stride: int = 200, kernel: tuple = (400, 400)) -> np.array:
@@ -112,12 +110,9 @@ def get_file_index(file: str) -> int:
 
 def get_patch_path(save_path: str, index: int) -> str:
     """output path for patch"""
-    return save_path.split('/')[-1].split('.')[0]+"_{}.tif".format(index)
+    return save_path.split('patched')[-1][1:].split('.')[0]+"_{}.tif".format(index)
 
 if __name__ == "__main__":
-    input_dir = "./data/cropped/"
-    output_dir = "./data/patched/"
-    input_file = "./data/columnwiseNr_to_plotNr.txt"
-    text_list = read_file(input_file)
-    patch_image(input_dir=input_dir, output_dir=output_dir, text_list=text_list)
-    write_json(HASHMAP_PLOTID, './data/hasmap_plotNr.json')
+    input_dir = sys.argv[1]
+    output_dir = sys.argv[2]
+    patch_image(input_dir=input_dir, output_dir=output_dir)
