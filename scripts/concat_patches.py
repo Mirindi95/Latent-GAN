@@ -6,6 +6,7 @@ from utils import read_json, write_json
 import matplotlib.pyplot as plt
 import sys
 import os
+from sklearn.model_selection import train_test_split
 
 
 def concat_patches(patchMap: dict, output_dir: str):
@@ -46,6 +47,11 @@ def get_patch_pair(patch_path01: str, patch_path02: str) -> tuple:
 def get_concat_path(patch: str):
     """Returns the save name for the patch pair"""
     return 'patch' + patch.split('/')[-1].split('RGB')[-1].split('.')[0]+'.jpg'
+
+
+    
+
+
 
 
 if __name__ == "__main__":

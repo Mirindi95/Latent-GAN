@@ -111,8 +111,3 @@ def get_file_index(file: str) -> int:
 def get_patch_path(save_path: str, index: int) -> str:
     """output path for patch"""
     return save_path.split('patched')[-1][1:].split('.')[0]+"_{}.tif".format(index)
-
-if __name__ == "__main__":
-    input_dir = sys.argv[1]
-    output_dir = sys.argv[2]
-    patch_image(input_dir=input_dir, output_dir=output_dir)
