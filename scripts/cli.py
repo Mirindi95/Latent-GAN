@@ -20,10 +20,9 @@ def preprocessing(input_dir: str, output_dir: str, resize:bool =True):
 
     input_directory: 
         clipped_04_34
-           |_raw
-              |_rowA
-              |_rowB
-
+             |_rowA	
+             |_rowB
+    
 
     the Output directory should be empty or with the same folder structure as the input directory
     """
