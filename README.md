@@ -63,7 +63,7 @@ The objective of this work is to implement and assess a multiconditional GAN for
 <!-- Usage -->
 ## Usage
 A Streamlit application can be used to predict plant growth by using individualized parameters.
-<img src='images/app.png' width=820>  
+<img src='images/App.png' width=820>  
 
 
 
